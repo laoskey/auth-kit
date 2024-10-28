@@ -1,3 +1,4 @@
+import { LoginButtoon } from "@/components/auth/LoginButtoon";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
@@ -18,12 +19,14 @@ export default function Home() {
           A simple authenticatin service
         </p>
         <div className=''>
-          <Button
-            variant={"secondary"}
-            size={"lg"}
-          >
-            Sign in
-          </Button>
+          <LoginButtoon>
+            <Button
+              variant={"secondary"}
+              size={"lg"}
+            >
+              Sign in
+            </Button>
+          </LoginButtoon>
         </div>
       </div>
     </div>
