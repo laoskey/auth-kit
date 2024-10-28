@@ -2,6 +2,7 @@
 import * as Z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useTransition } from "react";
 import {
   Form,
   FormControl,
@@ -16,6 +17,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../FormError";
 import { FormSuccess } from "../FormSuccess";
+import { login } from "@/actions/login";
 
 // interface LoginFormProps {}
 export function LoginForm() {
@@ -26,9 +28,21 @@ export function LoginForm() {
       password: "",
     },
   });
-
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, SetSuccess] = useState<string | undefined>("");
   const onSubmit = (values: Z.infer<typeof LoginSchema>) => {
-    console.log(values);
+    // Another ways to use restfulapi
+    // axios.post("your/api/route",values).then().then()
+    setError("");
+    SetSuccess("");
+
+    startTransition(() =>
+      login(values).then((data) => {
+        setError(data.error);
+        SetSuccess(data.success);
+      })
+    );
   };
   return (
     <CardWrapper
@@ -54,6 +68,7 @@ export function LoginForm() {
                       {...field}
                       placeholder='lao@example.com'
                       type='email'
+                      disabled={isPending}
                     />
                   </FormControl>
                 </FormItem>
@@ -70,17 +85,19 @@ export function LoginForm() {
                       {...field}
                       placeholder='********'
                       type='password'
+                      disabled={isPending}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
           </div>
-          <FormError message={""} />
-          <FormSuccess message={""} />
+          <FormError message={error} />
+          <FormSuccess message={success} />
           <Button
             className='w-full'
             type='submit'
+            disabled={isPending}
           >
             Login
           </Button>
