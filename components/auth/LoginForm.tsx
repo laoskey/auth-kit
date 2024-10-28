@@ -14,6 +14,8 @@ import { CardWrapper } from "./CardWrapper";
 import { LoginSchema } from "@/schemas";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { FormError } from "../FormError";
+import { FormSuccess } from "../FormSuccess";
 
 // interface LoginFormProps {}
 export function LoginForm() {
@@ -74,6 +76,8 @@ export function LoginForm() {
               )}
             />
           </div>
+          <FormError message={""} />
+          <FormSuccess message={""} />
           <Button
             className='w-full'
             type='submit'
