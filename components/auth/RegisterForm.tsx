@@ -12,17 +12,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CardWrapper } from "./CardWrapper";
-import { LoginSchema } from "@/schemas";
+import { RegisterSchema } from "@/schemas";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../FormError";
 import { FormSuccess } from "../FormSuccess";
-import { login } from "@/actions/login";
+import { register } from "@/actions/register";
 
 // interface LoginFormProps {}
-export function LoginForm() {
-  const form = useForm<Z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+export function RegisterForm() {
+  const form = useForm<Z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -31,14 +31,14 @@ export function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, SetSuccess] = useState<string | undefined>("");
-  const onSubmit = (values: Z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: Z.infer<typeof RegisterSchema>) => {
     // Another ways to use restfulapi
     // axios.post("your/api/route",values).then().then()
     setError("");
     SetSuccess("");
 
     startTransition(() =>
-      login(values).then((data) => {
+      register(values).then((data) => {
         setError(data.error);
         SetSuccess(data.success);
       })
@@ -46,9 +46,9 @@ export function LoginForm() {
   };
   return (
     <CardWrapper
-      headerLabel='Welecome back'
+      headerLabel='Create an account'
+      backButtonLabel='Already have an account'
       backButtonHref='/register'
-      backButtonLabel='Dont have an account'
       showSocial
     >
       <Form {...form}>
@@ -59,10 +59,27 @@ export function LoginForm() {
           <div className='space-y-4'>
             <FormField
               control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='font-[700]'>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder='Your user name'
+                      disabled={isPending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className='font-[700]'>Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -80,7 +97,7 @@ export function LoginForm() {
               name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className='font-[700]'>Password</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -101,7 +118,7 @@ export function LoginForm() {
             type='submit'
             disabled={isPending}
           >
-            Login
+            Create an account
           </Button>
         </form>
       </Form>

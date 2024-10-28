@@ -1,7 +1,6 @@
 "use server";
 
 import { LoginSchema } from "@/schemas";
-import { error } from "console";
 import { revalidatePath, revalidateTag } from "next/cache";
 import * as z from "zod";
 
