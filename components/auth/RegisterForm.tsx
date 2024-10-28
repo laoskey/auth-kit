@@ -26,6 +26,7 @@ export function RegisterForm() {
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   });
   const [isPending, startTransition] = useTransition();
