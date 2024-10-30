@@ -13,6 +13,14 @@ export const {
 } = NextAuth({
   //   providers: [GitHub, Google],
   callbacks: {
+    // async signIn({ user }) {
+    //   const existingUser = await getUserById(user.id);
+
+    //   if (!existingUser || !existingUser.emailVerified) {
+    //     return false;
+    //   }
+    //   return true;
+    // },
     async session({ token, session }) {
       console.log({ token });
       if (token.sub && session.user) {
