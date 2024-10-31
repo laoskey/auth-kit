@@ -11,7 +11,16 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
-  //   providers: [GitHub, Google],
+  events: {
+    async linkAccount({ user }) {
+      await db.user.update({
+        where: { id: user.id },
+        data: {
+          emailVerified: new Date(),
+        },
+      });
+    },
+  },
   callbacks: {
     // async signIn({ user }) {
     //   const existingUser = await getUserById(user.id);
@@ -21,6 +30,7 @@ export const {
     //   }
     //   return true;
     // },
+
     async session({ token, session }) {
       console.log({ token });
       if (token.sub && session.user) {

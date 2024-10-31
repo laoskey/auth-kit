@@ -1,6 +1,5 @@
 import { auth, signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
-
 // interface SettingPageProps {}
 export default async function SettingPage() {
   const session = await auth();

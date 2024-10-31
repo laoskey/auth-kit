@@ -39,8 +39,8 @@ export function LoginForm() {
 
     startTransition(() =>
       login(values).then((data) => {
-        setError(data.error);
-        SetSuccess(data.success);
+        setError(data?.error);
+        SetSuccess(data?.success);
       })
     );
   };

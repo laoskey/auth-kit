@@ -8,8 +8,14 @@ import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "./data/user";
 export default {
   providers: [
-    GitHub,
-    Google,
+    GitHub({
+      clientId: process.env.AUTH_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
+    }),
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
     Credentials({
       async authorize(credentials) {
         const validateFields = LoginSchema.safeParse(credentials);
