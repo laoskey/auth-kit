@@ -18,9 +18,16 @@ import { Button } from "../ui/button";
 import { FormError } from "../FormError";
 import { FormSuccess } from "../FormSuccess";
 import { login } from "@/actions/login";
+import { useSearchParams } from "next/navigation";
 
 // interface LoginFormProps {}
 export function LoginForm() {
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAcountNotLinked"
+      ? "Email already in use with differrnt provider!"
+      : "";
+
   const form = useForm<Z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -40,7 +47,8 @@ export function LoginForm() {
     startTransition(() =>
       login(values).then((data) => {
         setError(data?.error);
-        SetSuccess(data?.success);
+        // TODO :ADd then we add 2FA
+        // SetSuccess(data?.success);
       })
     );
   };
@@ -94,7 +102,7 @@ export function LoginForm() {
               )}
             />
           </div>
-          <FormError message={error} />
+          <FormError message={error || urlError} />
           <FormSuccess message={success} />
           <Button
             className='w-full'
