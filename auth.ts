@@ -34,6 +34,20 @@ export const {
     //   }
     //   return true;
     // },
+    async signIn({ user, account }) {
+      // 1> check allow Oauth without verfication
+      if (account?.provider !== "credentials") {
+        return true;
+      }
+
+      const existingUser = await getUserById(user.id as string);
+      //  2>PRevent sign in without email varification
+      if (!existingUser?.emailVerified) {
+        return false;
+      }
+      // 2>TODO:Add 2FA check
+      return true;
+    },
 
     async session({ token, session }) {
       console.log({ token });
