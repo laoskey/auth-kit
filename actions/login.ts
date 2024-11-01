@@ -5,6 +5,9 @@ import { DEFAULT_LOGGIN_REDIRECT } from "@/routes";
 import { LoginSchema } from "@/schemas";
 // import { revalidatePath, revalidateTag } from "next/cache";
 import * as z from "zod";
+import { getUserByEmail } from "@/data/user";
+import { generateVerificationToken } from "@/lib/tokens";
+import { existsSync } from "fs";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validateField = LoginSchema.safeParse(values);
@@ -15,6 +18,18 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 
   const { email, password } = validateField.data!;
+  const exsitingUser = await getUserByEmail(email);
+  console.log(exsitingUser);
+  if (!exsitingUser || !exsitingUser.email || !exsitingUser.password) {
+    return { error: "Invalid credentials:Email or password not exist!" };
+  }
+  if (!exsitingUser.emailVerified) {
+    const verficationToken = await generateVerificationToken(
+      exsitingUser.email
+    );
+
+    return { success: "Confirmation email sent " };
+  }
   try {
     await signIn("credentials", {
       email,

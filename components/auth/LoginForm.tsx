@@ -48,7 +48,7 @@ export function LoginForm() {
       login(values).then((data) => {
         setError(data?.error);
         // TODO :ADd then we add 2FA
-        // SetSuccess(data?.success);
+        SetSuccess(data?.success);
       })
     );
   };
