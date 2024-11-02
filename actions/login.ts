@@ -8,6 +8,7 @@ import * as z from "zod";
 import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { existsSync } from "fs";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validateField = LoginSchema.safeParse(values);
@@ -27,7 +28,10 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     const verficationToken = await generateVerificationToken(
       exsitingUser.email
     );
-
+    await sendVerificationEmail(
+      verficationToken.email,
+      verficationToken.token
+    );
     return { success: "Confirmation email sent " };
   }
   try {
