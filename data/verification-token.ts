@@ -13,13 +13,13 @@ export const getVerificationTokenByEmail = async (email: string) => {
 };
 
 export const getVerificationTokenByToken = async (
-  email: string,
+  // email: string,
   token: string
 ) => {
   try {
     const verificationToken = await db.verificationToken.findUnique({
-      where: { email_token: { email, token } },
-      // where: { token } },
+      // where: { email_token: { email, token } },
+      where: { token },
     });
 
     return verificationToken;
