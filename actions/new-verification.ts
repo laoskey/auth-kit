@@ -27,4 +27,10 @@ export const newVerification = async (token: string) => {
       email: existngToken.email,
     },
   });
+
+  await db.verificationToken.delete({
+    where: { id: existngToken.id },
+  });
+
+  return { success: "Email verified" };
 };
