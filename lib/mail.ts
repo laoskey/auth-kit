@@ -20,7 +20,7 @@ export const sendPasswordResetEmail = async (
   email: string,
   token: string
 ) => {
-  const resetUrl = `http://localhost/new-password?token=$${token}`;
+  const resetUrl = `http://localhost:3000/new-password?token=$${token}`;
   await resend.emails.send({
     from: "onboarding@resend.dev",
     to: email,
