@@ -12,38 +12,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CardWrapper } from "./CardWrapper";
-import { LoginSchema } from "@/schemas";
+import { ResetSchema } from "@/schemas";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../FormError";
 import { FormSuccess } from "../FormSuccess";
 import { login } from "@/actions/login";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 
 // interface LoginFormProps {}
-export function LoginForm() {
-  const searchParams = useSearchParams();
-  const urlError =
-    searchParams.get("error") === "OAuthAcountNotLinked"
-      ? "Email already in use with differrnt provider!"
-      : "";
-
-  const form = useForm<Z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+export function ResetForm() {
+  const form = useForm<Z.infer<typeof ResetSchema>>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, SetSuccess] = useState<string | undefined>("");
-  const onSubmit = (values: Z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: Z.infer<typeof ResetSchema>) => {
     // Another ways to use restfulapi
     // axios.post("your/api/route",values).then().then()
     setError("");
     SetSuccess("");
+    console.log(values);
 
     startTransition(() =>
       login(values).then((data) => {
@@ -55,10 +47,9 @@ export function LoginForm() {
   };
   return (
     <CardWrapper
-      headerLabel='Welecome back'
-      backButtonHref='/register'
-      backButtonLabel='Dont have an account'
-      showSocial
+      headerLabel='Forgot your password?'
+      backButtonLabel='Back to login'
+      backButtonHref='/login'
     >
       <Form {...form}>
         <form
@@ -84,41 +75,15 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder='********'
-                      type='password'
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <Button
-                    size={"sm"}
-                    variant={"link"}
-                    asChild
-                    className='px-0 font-normal'
-                  >
-                    <Link href={"/reset"}>Forgot possward?</Link>
-                  </Button>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
-          <FormError message={error || urlError} />
+          <FormError message={error} />
           <FormSuccess message={success} />
           <Button
             className='w-full'
             type='submit'
             disabled={isPending}
           >
-            Login
+            Send reset email
           </Button>
         </form>
       </Form>
