@@ -18,6 +18,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../FormError";
 import { FormSuccess } from "../FormSuccess";
+import { newPassword } from "@/actions/new-password";
 
 // interface LoginFormProps {}
 export function NewPasswordForm() {
@@ -40,7 +41,7 @@ export function NewPasswordForm() {
     console.log(values);
 
     startTransition(() =>
-      reset(values).then((data) => {
+      newPassword(values, token).then((data) => {
         setError(data?.error);
         // TODO :ADd then we add 2FA
         SetSuccess(data?.success);
