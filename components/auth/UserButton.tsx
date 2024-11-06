@@ -15,7 +15,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { LogoutButton } from "./LogoutButton";
 import { ExitIcon } from "@radix-ui/react-icons";
 
-interface UserButtonProps {}
+// interface UserButtonProps {}
 export function UserButton() {
   const user = useCurrentUser();
   return (

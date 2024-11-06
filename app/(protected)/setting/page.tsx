@@ -1,7 +1,6 @@
 "use client";
 import { logout } from "@/actions/logout";
 import { Button } from "@/components/ui/button";
-import { NavBar } from "../_components/NavBar";
 // import { useCurrentUser } from "@/hooks/use-current-user";
 // import { useSession } from "next-auth/react";
 export default function SettingPage() {
@@ -15,7 +14,6 @@ export default function SettingPage() {
       className=' bg-white p-10 rounded-xl
     '
     >
-      <NavBar />
       <Button
         type='submit'
         onClick={onClick}

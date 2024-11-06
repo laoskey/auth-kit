@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface NavBarProps {}
+// interface NavBarProps {}
 export function NavBar() {
   const pathName = usePathname();
   return (
