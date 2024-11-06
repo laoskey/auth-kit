@@ -34,6 +34,7 @@ export function LoginForm() {
     defaultValues: {
       email: "",
       password: "",
+      code: "",
     },
   });
   const [isPending, startTransition] = useTransition();

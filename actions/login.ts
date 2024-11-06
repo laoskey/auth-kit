@@ -10,7 +10,6 @@ import {
   generateTwoFactorToken,
   generateVerificationToken,
 } from "@/lib/tokens";
-import { existsSync } from "fs";
 import {
   sendTwoFactorTokenEmail,
   sendVerificationEmail,
