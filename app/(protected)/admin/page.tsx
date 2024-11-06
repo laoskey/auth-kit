@@ -5,14 +5,15 @@ import { FormSuccess } from "@/components/FormSuccess";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { UserRole } from "@prisma/client";
+import { toast } from "sonner";
 
 export default function AdminPage() {
   const onAPIRouteClick = () => {
-    fetch("/app/api/admin").then((response) => {
+    fetch("/api/admin").then((response) => {
       if (response.ok) {
-        console.log("Ok");
+        toast.success("Allowed API route");
       } else {
-        console.error("FORBIDDEN");
+        toast.error("Forbidden API route
       }
     });
   };
