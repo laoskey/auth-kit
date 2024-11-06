@@ -34,7 +34,7 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang='en'>
         <body
-          className={` ${inter.className} ${geistSans.variable} ${geistMono.variable} antialiased h-full bg-red-200`}
+          className={` ${inter.className} ${geistSans.variable} ${geistMono.variable} antialiased h-full`}
         >
           {children}
         </body>
