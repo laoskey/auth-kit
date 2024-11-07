@@ -1,5 +1,6 @@
 "use client";
 
+import { admin } from "@/actions/admin";
 import { RoleGate } from "@/components/auth/RoleGate";
 import { FormSuccess } from "@/components/FormSuccess";
 import { Button } from "@/components/ui/button";
@@ -8,12 +9,22 @@ import { UserRole } from "@prisma/client";
 import { toast } from "sonner";
 
 export default function AdminPage() {
+  const onServerACtionCLick = () => {
+    admin().then((data) => {
+      if (data.error) {
+        toast.error(data.error);
+      }
+      if (data.success) {
+        toast.success(data.success);
+      }
+    });
+  };
   const onAPIRouteClick = () => {
     fetch("/api/admin").then((response) => {
       if (response.ok) {
         toast.success("Allowed API route");
       } else {
-        toast.error("Forbidden API route
+        toast.error("Forbidden API route");
       }
     });
   };
@@ -42,7 +53,7 @@ export default function AdminPage() {
             Admin-only Server Action
           </p>
 
-          <Button>Click to test</Button>
+          <Button onClick={onServerACtionCLick}>Click to test</Button>
         </div>
       </CardContent>
     </Card>
