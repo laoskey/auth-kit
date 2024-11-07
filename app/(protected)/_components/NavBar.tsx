@@ -17,18 +17,18 @@ export function NavBar() {
           variant={pathName === "/client" ? "default" : "outline"}
         >
           <Link href={"/client"}>Client</Link>
+        </Button>{" "}
+        <Button
+          asChild
+          variant={pathName === "/server" ? "default" : "outline"}
+        >
+          <Link href={"/server"}>Server</Link>
         </Button>
         <Button
           asChild
           variant={pathName === "/setting" ? "default" : "outline"}
         >
           <Link href={"/setting"}>Settings</Link>
-        </Button>
-        <Button
-          asChild
-          variant={pathName === "/server" ? "default" : "outline"}
-        >
-          <Link href={"/server"}>Server</Link>
         </Button>
         <Button
           asChild
