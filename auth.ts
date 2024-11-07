@@ -64,7 +64,7 @@ export const {
     },
 
     async session({ token, session }) {
-      console.log({ token });
+      // console.log({ token });
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
@@ -74,6 +74,7 @@ export const {
       if (session.user) {
         session.user.isTwoFactorEnabled =
           token.isTwoFactorEnabled as boolean;
+        session.user.name = token.name;
       }
       return session;
     },
@@ -81,7 +82,7 @@ export const {
       if (!token.sub) {
         return token;
       }
-
+      console.log("I'LL BE CALLED AGAIN");
       const existingUser = await getUserById(token.sub);
 
       if (!existingUser) {
@@ -89,6 +90,8 @@ export const {
       }
 
       token.role = existingUser.role;
+      token.email = existingUser.email;
+      token.name = existingUser.name;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
       return token;
     },
