@@ -1,9 +1,13 @@
 "use client";
 import { useTransition } from "react";
+import { useSession } from "next-auth/react";
+import { toast } from "sonner";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { settings } from "@/actions/settings";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useSession } from "next-auth/react";
 
 export default function SettingPage() {
   const [isPending, startTransition] = useTransition();
@@ -11,8 +15,12 @@ export default function SettingPage() {
   const onClick = () => {
     startTransition(() => {
       settings({
-        name: "NEW TTTT",
-      }).then(() => update());
+        name: "Something deffirent",
+      })
+        .then(() => update())
+        .catch((error) => {
+          toast.error(error);
+        });
     });
   };
   return (

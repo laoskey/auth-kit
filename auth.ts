@@ -5,6 +5,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./lib/db";
 import { getUserById } from "./data/user";
 import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
+import { getAccountByUserID } from "./data/account";
 
 export const {
   auth,
@@ -74,7 +75,11 @@ export const {
       if (session.user) {
         session.user.isTwoFactorEnabled =
           token.isTwoFactorEnabled as boolean;
+      }
+      if (session.user) {
         session.user.name = token.name;
+        session.user.email = token.email as string;
+        session.user.isOAuth = token.isOAuth as boolean;
       }
       return session;
     },
@@ -82,13 +87,17 @@ export const {
       if (!token.sub) {
         return token;
       }
-      console.log("I'LL BE CALLED AGAIN");
+      // console.log("I'LL BE CALLED AGAIN");
       const existingUser = await getUserById(token.sub);
 
       if (!existingUser) {
         return token;
       }
+      const existingAccount = await getAccountByUserID(
+        existingUser.id
+      );
 
+      token.isOAuth = !!existingAccount;
       token.role = existingUser.role;
       token.email = existingUser.email;
       token.name = existingUser.name;
