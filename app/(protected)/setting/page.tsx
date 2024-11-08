@@ -1,6 +1,6 @@
 "use client";
 import { useState, useTransition } from "react";
-// import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,7 +37,7 @@ export default function SettingPage() {
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
-  // const { update } = useSession();
+  const { update } = useSession();
 
   const form = useForm<z.infer<typeof SettingSchema>>({
     resolver: zodResolver(SettingSchema),
@@ -60,7 +60,7 @@ export default function SettingPage() {
             setError(data.error);
           }
           if (data.success) {
-            // update();
+            update();
             setSuccess(data.success);
           }
         })

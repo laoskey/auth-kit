@@ -66,6 +66,8 @@ export const settings = async (
       ...values,
     },
   });
+
+  // Update session from the server side
   update({
     user: {
       name: updpateUser.name,
