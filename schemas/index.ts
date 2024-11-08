@@ -32,6 +32,16 @@ export const SettingSchema = z
       return true;
     },
     { message: " password is required", path: ["password"] }
+  )
+  .refine(
+    // Fixed: fixed the bug that user can update userName by "".
+    (data) => {
+      if (!data.name || !data.email) {
+        return false;
+      }
+      return true;
+    },
+    { message: "name not be ''", path: ["name", "email"] }
   );
 export const LoginSchema = z.object({
   email: z.string().email({

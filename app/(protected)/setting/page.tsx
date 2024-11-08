@@ -1,6 +1,6 @@
 "use client";
 import { useState, useTransition } from "react";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,24 +31,23 @@ import {
 } from "@/components/ui/select";
 import { UserRole } from "@prisma/client";
 import { Switch } from "@/components/ui/switch";
-import { currentUser } from "@/lib/auth";
 
 export default function SettingPage() {
   const user = useCurrentUser();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
-  const { update } = useSession();
+  // const { update } = useSession();
 
   const form = useForm<z.infer<typeof SettingSchema>>({
     resolver: zodResolver(SettingSchema),
     defaultValues: {
-      password: "",
-      newPassword: "",
-      name: user?.name || "",
-      email: user?.email || "",
+      password: undefined,
+      newPassword: undefined,
+      name: user?.name || undefined,
+      email: user?.email || undefined,
       role: user?.role || undefined,
-      isTwoFactorEnabled: undefined,
+      isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
     },
   });
   // console.log({ user });
@@ -61,7 +60,7 @@ export default function SettingPage() {
             setError(data.error);
           }
           if (data.success) {
-            update();
+            // update();
             setSuccess(data.success);
           }
         })
@@ -97,9 +96,10 @@ export default function SettingPage() {
                         placeholder='Your New Name'
                         disabled={isPending}
                         value={field.value}
+                        required
                       />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -136,7 +136,6 @@ export default function SettingPage() {
                             type='password'
                             placeholder='******'
                             disabled={isPending}
-                            value={field.value}
                           />
                         </FormControl>
                         <FormMessage />
@@ -155,7 +154,6 @@ export default function SettingPage() {
                             type='password'
                             placeholder='******'
                             disabled={isPending}
-                            value={field.value}
                           />
                         </FormControl>
                         <FormMessage />

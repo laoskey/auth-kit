@@ -1,10 +1,14 @@
 "use server";
 
-import { getUserById } from "@/data/user";
+import { getUserByEmail, getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { sendVerificationEmail } from "@/lib/mail";
+import { generateVerificationToken } from "@/lib/tokens";
 import { SettingSchema } from "@/schemas";
 import { z } from "zod";
+import bcrypt from "bcryptjs";
+import { update } from "@/auth";
 
 export const settings = async (
   values: z.infer<typeof SettingSchema>
@@ -27,12 +31,48 @@ export const settings = async (
     values.isTwoFactorEnabled = undefined;
   }
 
-  await db.user.update({
+  if (values.email && values.email !== user.email) {
+    const existingUser = await getUserByEmail(values.email);
+    if (existingUser && existingUser.id !== user.id) {
+      return { error: "Email already in use" };
+    }
+    const varificationToken = await generateVerificationToken(
+      values.email
+    );
+    await sendVerificationEmail(
+      varificationToken.email,
+      varificationToken.token
+    );
+  }
+
+  if (values.password && values.newPassword && dbUser.password) {
+    const passwordMatch = await bcrypt.compare(
+      values.password,
+      dbUser.password
+    );
+
+    if (!passwordMatch) {
+      return { error: "Incorrect password" };
+    }
+
+    const hashedPassword = await bcrypt.hash(values.newPassword, 10);
+    values.password = hashedPassword;
+    values.newPassword = undefined;
+  }
+
+  const updpateUser = await db.user.update({
     where: { id: dbUser.id },
     data: {
       ...values,
     },
   });
-
+  update({
+    user: {
+      name: updpateUser.name,
+      email: updpateUser.email,
+      isTwoFactorEnabled: updpateUser.isTwoFactorEnabled,
+      role: updpateUser.role,
+    },
+  });
   return { success: "Settings updated" };
 };
