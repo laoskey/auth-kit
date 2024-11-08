@@ -30,7 +30,12 @@ export default function SettingPage() {
 
   const form = useForm<z.infer<typeof SettingSchema>>({
     resolver: zodResolver(SettingSchema),
-    defaultValues: { name: user?.name || undefined },
+    defaultValues: {
+      name: user?.name || undefined,
+      email: user?.email || undefined,
+      password: undefined,
+      newPassword: undefined,
+    },
   });
 
   const onSubmit = (values: z.infer<typeof SettingSchema>) => {
@@ -64,7 +69,6 @@ export default function SettingPage() {
             className='space-y-6'
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            {" "}
             <div className='space-y-4'>
               <FormField
                 control={form.control}
@@ -81,6 +85,60 @@ export default function SettingPage() {
                     </FormControl>
                   </FormItem>
                 )}
+              />
+              <FormField
+                control={form.control}
+                name='email'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type='email'
+                        placeholder='YourNew@Email.com'
+                        disabled={isPending}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='password'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type='password'
+                        placeholder='******'
+                        disabled={isPending}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='newPassword'
+                render={({ field }) => {
+                  console.log({ field });
+                  return (
+                    <FormItem>
+                      <FormLabel>NewPassword</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type='password'
+                          placeholder='******'
+                          disabled={isPending}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  );
+                }}
               />
             </div>
             {error && <FormError message={error} />}
