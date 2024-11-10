@@ -2,6 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { LoginForm } from "./LoginForm";
 
 interface LoginButtoonProps {
   children: React.ReactNode;
@@ -16,7 +23,15 @@ export function LoginButtoon({
   const router = useRouter();
 
   if (mode === "modal") {
-    return <span> TODO:IMPLEMENT modal</span>;
+    return (
+      <Dialog>
+        <DialogTitle className='hidden'></DialogTitle>
+        <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
+        <DialogContent className='p-0 w-auto bg-transparent border-none'>
+          <LoginForm />
+        </DialogContent>
+      </Dialog>
+    );
   }
 
   const onCLick = () => {
