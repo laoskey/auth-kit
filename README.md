@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+##TODO:
+1.deploy the app on the vercel
+2.add the domain on the Resend.com to send email for everyuser's email
+
 ## Getting Started
 
 First, run the development server:
