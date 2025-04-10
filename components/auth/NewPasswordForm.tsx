@@ -4,14 +4,7 @@ import { useForm } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { CardWrapper } from "./CardWrapper";
 import { NewPasswordSchema } from "@/schemas";
 import { Input } from "../ui/input";
@@ -50,27 +43,27 @@ export function NewPasswordForm() {
   };
   return (
     <CardWrapper
-      headerLabel='Enter your new password?'
-      backButtonLabel='Back to login'
-      backButtonHref='/login'
+      headerLabel="Enter your new password?"
+      backButtonLabel="Back to login"
+      backButtonHref="/login"
     >
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-6'
+          className="space-y-6"
         >
-          <div className='space-y-4'>
+          <div className="space-y-4">
             <FormField
               control={form.control}
-              name='password'
+              name="password"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>New password</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder='******'
-                      type='password'
+                      placeholder="******"
+                      type="password"
                       disabled={isPending}
                     />
                   </FormControl>
@@ -82,8 +75,8 @@ export function NewPasswordForm() {
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button
-            className='w-full'
-            type='submit'
+            className="w-full"
+            type="submit"
             disabled={isPending}
           >
             Reset password

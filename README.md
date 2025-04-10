@@ -1,10 +1,29 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-##TODO:
-1.deploy the app on the vercel
-2.add the domain on the Resend.com to send email for everyuser's email
+## Introduction
+
+Auth Kit is a Next.js-based authentication kit that provides user authentication and role-based access control. It integrates with popular authentication providers like Google and GitHub, and uses Prisma for database management.
+
+## TODO:
+
+1. deploy the app on the vercel
+2. add the domain on the Resend.com to send email for every user's email
 
 ## Getting Started
+
+### Prerequisites
+
+- Node.js (version 20 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd auth-kit
+```
 
 First, run the development server:
 
@@ -51,3 +70,24 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ##Keywords
 role bases access
+
+#### Usage
+
+### Role - Based Access Control
+
+Use the RoleGate component to restrict access to certain content based on the user's role:
+
+```jsx
+import { RoleGate } from "@/components/auth/RoleGate";
+import { UserRole } from "@prisma/client";
+
+const AdminPage = () => {
+  return (
+    <RoleGate allowedRole={UserRole.ADMIN}>
+      <div>Admin - only content</div>
+    </RoleGate>
+  );
+};
+
+export default AdminPage;
+```
